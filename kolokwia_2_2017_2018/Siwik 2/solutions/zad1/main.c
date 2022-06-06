@@ -33,7 +33,7 @@ int main(int argc, char** args){
     *************************************/
     sem_t *sem_id = calloc(1, sizeof(sem_id));
     //sem_init(sem_id, 1, 1);
-    sem_id = sem_open(SEM_NAME, O_CREAT, 0600, 1);
+    sem_id = sem_open(SEM_NAME, O_CREAT, 0666, 1);
 
       print_sem_value(sem_id);
 
@@ -43,7 +43,7 @@ int main(int argc, char** args){
      int parentLoopCounter = atoi(args[1]);
      int childLoopCounter = atoi(args[2]);
 
-     char buf[20];
+     char buf[60];
      pid_t childPid;
      int max_sleep_time = atoi(args[3]);
 
@@ -65,7 +65,7 @@ int main(int argc, char** args){
 	    print_sem_value(sem_id);
 
 
-            sprintf(buf, "Wpis rodzica. Petla %d. Spalem %d\n", parentLoopCounter,s);
+        sprintf(buf, "Wpis rodzica. Petla %d. Spalem %d\n", parentLoopCounter,s);
 	    write(fd, buf, strlen(buf));
 	    write(1, buf, strlen(buf));
 
@@ -122,7 +122,7 @@ int main(int argc, char** args){
     ***************************************/
     sem_destroy(sem_id);
 
-     close(fd);
+    close(fd);
     return 0;
 }
 

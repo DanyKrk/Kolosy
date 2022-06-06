@@ -31,13 +31,13 @@ int main(int argc, char *argv[]) {
     };
 
     fd = socket(AF_UNIX, SOCK_DGRAM, 0);
-    //bind(fd,(const struct sockaddr *) &addr, sizeof(struct sockaddr_un));
+    bind(fd,(const struct sockaddr *) &addr, sizeof(struct sockaddr_un));
 
     connect(fd, (const struct sockaddr *) &addr, sizeof(struct sockaddr_un));
 
 
     char buff[20];
-    int to_send = sprintf(buff, argv[1]);
+    int to_send = sprintf(buff, "%s", argv[1]);
 
     if(write(fd, buff, to_send+1) == -1) {
         perror("Error sending msg to server");

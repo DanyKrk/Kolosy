@@ -18,10 +18,16 @@ int main() {
     Utworz strukture adresowa ustawiajac adres/sciezke komunikacji na SOCK_PATH
     Zbinduj socket z adresem/sciezka SOCK_PATH
     **********************************************/
+    fd = socket(AF_UNIX, SOCK_DGRAM, 0);
+    struct sockaddr_un sockaddr;
+    sockaddr.sun_family = AF_UNIX;
+//    sockaddr.sun_path = SOCK_PATH;
+    strcpy(sockaddr.sun_path, SOCK_PATH);
+    bind(fd, (const struct sockaddr *) &sockaddr, sizeof(sockaddr));
+    connect(fd, (const struct sockaddr *) &sockaddr, sizeof(sockaddr));
 
 
-
-    char buf[20];
+    char buf[60];
     if(read(fd, buf, 20) == -1)
         perror("Error receiving message");
     int val = atoi(buf);
@@ -31,6 +37,8 @@ int main() {
     /***************************
     Posprzataj po sockecie
     ****************************/
+    close(fd);
+    unlink(SOCK_PATH);
     return 0;
 }
 
